@@ -1,3 +1,4 @@
+import process from 'node:process'
 import tailwindcss from '@tailwindcss/vite'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -66,6 +67,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-03-13',
 
   nitro: {
+    preset: 'cloudflare_module',
     prerender: {
       ignore: [
         '/examples/forms',
@@ -77,6 +79,6 @@ export default defineNuxtConfig({
     },
   },
   app: {
-    baseURL: '/nuxt-shadcn-dashboard/',
+    baseURL: process.env.NUXT_APP_BASE_URL || '/',
   },
 })

@@ -6,7 +6,7 @@ Guidance for AI coding agents working in `my-nuxt-shadcn-dashboard`.
 
 - **Stack**: Nuxt 4 (`^4.1.3`), Vue 3 (`^3.5.22`), TypeScript (`^5.9.3`), Tailwind CSS v4 (`@tailwindcss/vite`), `shadcn-nuxt` (`2.3.1`), `reka-ui`, `@unovis/vue`, `@tanstack/vue-table`, `vee-validate` + `zod`, `@pinia/nuxt`, `@vueuse/nuxt`, `@nuxt/icon`, `@nuxtjs/color-mode`, `@nuxthub/core`.
 - **Package Manager**: `pnpm` (`pnpm@10.10.0`, `engines.node: 22.x`). Always use `pnpm` (never `npm` or `yarn`).
-- **Base URL**: `app.baseURL` in `nuxt.config.ts` is `/nuxt-shadcn-dashboard/` (configured for GitHub Pages deployment).
+- **Deployment Target**: Configured for Cloudflare Workers (`nitro.preset: 'cloudflare_module'` in `nuxt.config.ts`, `cloudflare.config.ts` at root). Default `app.baseURL` is `/` (override with `NUXT_APP_BASE_URL` if deploying to a subpath such as GitHub Pages). Use the `cf` CLI (`cf dev`, `cf deploy`) rather than Wrangler.
 
 ## Directory Structure
 
