@@ -1,4 +1,3 @@
-import process from 'node:process'
 import tailwindcss from '@tailwindcss/vite'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -25,7 +24,6 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/color-mode',
     '@nuxt/fonts',
-    '@nuxthub/core',
   ],
 
   shadcn: {
@@ -56,11 +54,6 @@ export default defineNuxtConfig({
     },
   },
 
-  routeRules: {
-    '/components': { redirect: '/components/accordion' },
-    '/settings': { redirect: '/settings/profile' },
-  },
-
   imports: {
     dirs: ['./lib'],
   },
@@ -69,17 +62,5 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'cloudflare_module',
-    prerender: {
-      ignore: [
-        '/examples/forms',
-        '/terms',
-        '/privacy',
-        '/components/pagination',
-        '/docs',
-      ],
-    },
-  },
-  app: {
-    baseURL: process.env.NUXT_APP_BASE_URL || '/',
   },
 })

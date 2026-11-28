@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 definePageMeta({
   layout: 'blank',
 })
@@ -7,28 +7,30 @@ const router = useRouter()
 </script>
 
 <template>
-  <div class="h-svh">
-    <div class="m-auto h-full w-full flex flex-col items-center justify-center gap-2">
-      <h1 class="text-[7rem] font-bold leading-tight">
-        404
-      </h1>
-      <span class="font-medium">Oops! Page Not Found!</span>
-      <p class="text-center text-muted-foreground">
-        It seems like the page you're looking for <br>
-        does not exist or might have been removed.
-      </p>
-      <div class="mt-6 flex gap-4">
+  <div class="flex min-h-svh items-center justify-center bg-muted/30 p-4">
+    <Card class="w-full max-w-md text-center">
+      <CardHeader class="space-y-3">
+        <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-muted text-muted-foreground">
+          <Icon name="i-lucide-file-question" class="size-6" />
+        </div>
+        <p class="text-sm font-semibold tracking-widest text-muted-foreground uppercase">
+          Error 404
+        </p>
+        <CardTitle class="text-2xl">
+          Page not found
+        </CardTitle>
+        <CardDescription>
+          The page you are looking for does not exist or may have been moved.
+        </CardDescription>
+      </CardHeader>
+      <CardFooter class="flex justify-center gap-3">
         <Button variant="outline" @click="router.back()">
           Go Back
         </Button>
-        <Button @click="router.push('/')">
+        <Button @click="navigateTo('/')">
           Back to Home
         </Button>
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   </div>
 </template>
-
-<style scoped>
-
-</style>

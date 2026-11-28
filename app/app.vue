@@ -24,27 +24,20 @@ useHead({
   },
 })
 
-const title = 'Nuxt Shadcn-Vue TailwindCSS 4 - Dashboard Template'
-const description = 'This dashboard, built with Nuxt, Shadcn Vue, and TailwindCSS. It includes a dark mode toggle and is optimized for performance and data efficiency.'
+const title = 'Class Manager'
+const description = 'Part-time high school class management portal for teachers and students.'
 
 useSeoMeta({
   title,
   description,
   ogTitle: title,
   ogDescription: description,
-  ogUrl: 'https://dashboard.dianprata.com',
-  ogImage: 'https://nuxt-shadcn-dashboard.vercel.app/social-card.png',
-  twitterTitle: title,
-  twitterDescription: description,
-  twitterImage: 'https://nuxt-shadcn-dashboard.vercel.app/social-card.png',
-  twitterCard: 'summary_large_image',
 })
 
 const router = useRouter()
 
 defineShortcuts({
-  'G-H': () => router.push('/'),
-  'G-E': () => router.push('/email'),
+  'G-H': () => router.push('/admin'),
 })
 
 const textDirection = useTextDirection({ initialValue: 'ltr' })

@@ -1,4 +1,11 @@
-<script setup>
+<script setup lang="ts">
+const props = defineProps<{
+  error: {
+    statusCode?: number
+    message?: string
+  }
+}>()
+
 const { theme } = useAppSettings()
 
 useHead({
@@ -7,32 +14,35 @@ useHead({
   },
 })
 
-const router = useRouter()
+const statusCode = computed(() => props.error?.statusCode || 500)
+
+function handleClear() {
+  clearError({ redirect: '/' })
+}
 </script>
 
 <template>
-  <div class="h-svh">
-    <div class="m-auto h-full w-full flex flex-col items-center justify-center gap-2">
-      <h1 class="text-[7rem] font-bold leading-tight">
-        404
-      </h1>
-      <span class="font-medium">Oops! Page Not Found!</span>
-      <p class="text-center text-muted-foreground">
-        It seems like the page you're looking for <br>
-        does not exist or might have been removed.
-      </p>
-      <div class="mt-6 flex gap-4">
-        <Button variant="outline" @click="router.back()">
-          Go Back
-        </Button>
-        <Button @click="router.push('/')">
+  <div class="flex min-h-svh items-center justify-center bg-muted/30 p-4">
+    <Card class="w-full max-w-md text-center">
+      <CardHeader class="space-y-3">
+        <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-destructive/10 text-destructive">
+          <Icon name="i-lucide-alert-triangle" class="size-6" />
+        </div>
+        <p class="text-sm font-semibold tracking-widest text-muted-foreground uppercase">
+          Error {{ statusCode }}
+        </p>
+        <CardTitle class="text-2xl">
+          {{ statusCode === 404 ? 'Page not found' : 'Something went wrong' }}
+        </CardTitle>
+        <CardDescription>
+          {{ error?.message || 'An unexpected error occurred.' }}
+        </CardDescription>
+      </CardHeader>
+      <CardFooter class="flex justify-center gap-3">
+        <Button @click="handleClear">
           Back to Home
         </Button>
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   </div>
 </template>
-
-<style scoped>
-
-</style>

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 definePageMeta({
   layout: 'blank',
 })
@@ -7,27 +7,30 @@ const router = useRouter()
 </script>
 
 <template>
-  <div class="h-svh">
-    <div class="m-auto h-full w-full flex flex-col items-center justify-center gap-2">
-      <h1 class="text-[7rem] font-bold leading-tight">
-        401
-      </h1>
-      <span class="font-medium">Unauthorized Access</span>
-      <p class="text-center text-muted-foreground">
-        Please log in with the appropriate credentials <br> to access this resource.
-      </p>
-      <div class="mt-6 flex gap-4">
+  <div class="flex min-h-svh items-center justify-center bg-muted/30 p-4">
+    <Card class="w-full max-w-md text-center">
+      <CardHeader class="space-y-3">
+        <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400">
+          <Icon name="i-lucide-lock" class="size-6" />
+        </div>
+        <p class="text-sm font-semibold tracking-widest text-muted-foreground uppercase">
+          Error 401
+        </p>
+        <CardTitle class="text-2xl">
+          Sign in required
+        </CardTitle>
+        <CardDescription>
+          Your session has expired or you are not logged in. Please sign in with Telegram to continue.
+        </CardDescription>
+      </CardHeader>
+      <CardFooter class="flex justify-center gap-3">
         <Button variant="outline" @click="router.back()">
           Go Back
         </Button>
-        <Button @click="router.push('/')">
-          Back to Home
+        <Button @click="navigateTo('/login')">
+          Log in
         </Button>
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   </div>
 </template>
-
-<style scoped>
-
-</style>

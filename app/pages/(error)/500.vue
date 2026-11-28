@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 definePageMeta({
   layout: 'blank',
 })
@@ -7,27 +7,30 @@ const router = useRouter()
 </script>
 
 <template>
-  <div class="h-svh">
-    <div class="m-auto h-full w-full flex flex-col items-center justify-center gap-2">
-      <h1 class="text-[7rem] font-bold leading-tight">
-        500
-      </h1>
-      <span class="font-medium">Oops! Something went wrong :')</span>
-      <p class="text-center text-muted-foreground">
-        We apologize for the inconvenience. <br> Please try again later.
-      </p>
-      <div class="mt-6 flex gap-4">
+  <div class="flex min-h-svh items-center justify-center bg-muted/30 p-4">
+    <Card class="w-full max-w-md text-center">
+      <CardHeader class="space-y-3">
+        <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-destructive/10 text-destructive">
+          <Icon name="i-lucide-server-crash" class="size-6" />
+        </div>
+        <p class="text-sm font-semibold tracking-widest text-muted-foreground uppercase">
+          Error 500
+        </p>
+        <CardTitle class="text-2xl">
+          Something went wrong
+        </CardTitle>
+        <CardDescription>
+          An unexpected error occurred on the server. Please try again in a moment.
+        </CardDescription>
+      </CardHeader>
+      <CardFooter class="flex justify-center gap-3">
         <Button variant="outline" @click="router.back()">
           Go Back
         </Button>
-        <Button @click="router.push('/')">
+        <Button @click="navigateTo('/')">
           Back to Home
         </Button>
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   </div>
 </template>
-
-<style scoped>
-
-</style>
