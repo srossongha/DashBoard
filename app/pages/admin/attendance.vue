@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
 import { toast } from 'vue-sonner'
 
 type AttendanceStatus = 'present' | 'absent' | 'late'

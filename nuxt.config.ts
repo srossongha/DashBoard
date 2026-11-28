@@ -1,6 +1,23 @@
 import tailwindcss from '@tailwindcss/vite'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  runtimeConfig: {
+    // Server-only secrets (never sent to the browser)
+    supabaseUrl: '',               // NUXT_SUPABASE_URL
+    supabaseServiceRoleKey: '',    // NUXT_SUPABASE_SERVICE_ROLE_KEY
+    telegramClientId: '',          // NUXT_TELEGRAM_CLIENT_ID
+    telegramClientSecret: '',      // NUXT_TELEGRAM_CLIENT_SECRET
+    telegramBotToken: '',          // NUXT_TELEGRAM_BOT_TOKEN
+    sessionSecret: '',             // NUXT_SESSION_SECRET
+    appUrl: '',                    // NUXT_APP_URL
+    initialAdminTelegramId: '',    // NUXT_INITIAL_ADMIN_TELEGRAM_ID
+
+    // Public (accessible on client too)
+    public: {
+      telegramClientId: '',        // NUXT_PUBLIC_TELEGRAM_CLIENT_ID
+    },
+  },
+
   devtools: { enabled: true },
   sourcemap: false,
 

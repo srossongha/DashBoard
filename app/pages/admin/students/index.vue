@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
 interface MockStudent {
   id: string
   fullName: string

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-// Minimal mobile-first layout for students: no sidebar, no admin components.
-function handleLogout() {
-  navigateTo('/login')
-}
+/**
+ * student layout – minimal header with real logout.
+ */
+const { logout } = useAuth()
 </script>
 
 <template>
@@ -18,7 +18,7 @@ function handleLogout() {
           variant="outline"
           size="sm"
           class="min-h-10 px-4"
-          @click="handleLogout"
+          @click="logout"
         >
           <Icon name="i-lucide-log-out" class="mr-2 size-4" />
           Log out

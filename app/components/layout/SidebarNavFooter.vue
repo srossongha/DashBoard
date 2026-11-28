@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSidebar } from '~/components/ui/sidebar'
 
-defineProps<{
+const props = defineProps<{
   user: {
     name: string
     email: string
@@ -9,12 +9,9 @@ defineProps<{
   }
 }>()
 
+const emit = defineEmits<{ logout: [] }>()
+
 const { isMobile } = useSidebar()
-
-function handleLogout() {
-  navigateTo('/login')
-}
-
 const showModalTheme = ref(false)
 </script>
 
@@ -28,14 +25,14 @@ const showModalTheme = ref(false)
             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           >
             <Avatar class="h-8 w-8 rounded-lg">
-              <AvatarImage v-if="user.avatar" :src="user.avatar" :alt="user.name" />
+              <AvatarImage v-if="props.user.avatar" :src="props.user.avatar" :alt="props.user.name" />
               <AvatarFallback class="rounded-lg">
-                {{ user.name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase() }}
+                {{ props.user.name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase() }}
               </AvatarFallback>
             </Avatar>
             <div class="grid flex-1 text-left text-sm leading-tight">
-              <span class="truncate font-semibold">{{ user.name }}</span>
-              <span class="truncate text-xs text-muted-foreground">{{ user.email }}</span>
+              <span class="truncate font-semibold">{{ props.user.name }}</span>
+              <span class="truncate text-xs text-muted-foreground">{{ props.user.email }}</span>
             </div>
             <Icon name="i-lucide-chevrons-up-down" class="ml-auto size-4" />
           </SidebarMenuButton>
@@ -48,14 +45,14 @@ const showModalTheme = ref(false)
           <DropdownMenuLabel class="p-0 font-normal">
             <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
               <Avatar class="h-8 w-8 rounded-lg">
-                <AvatarImage v-if="user.avatar" :src="user.avatar" :alt="user.name" />
+                <AvatarImage v-if="props.user.avatar" :src="props.user.avatar" :alt="props.user.name" />
                 <AvatarFallback class="rounded-lg">
-                  {{ user.name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase() }}
+                  {{ props.user.name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase() }}
                 </AvatarFallback>
               </Avatar>
               <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-semibold">{{ user.name }}</span>
-                <span class="truncate text-xs text-muted-foreground">{{ user.email }}</span>
+                <span class="truncate font-semibold">{{ props.user.name }}</span>
+                <span class="truncate text-xs text-muted-foreground">{{ props.user.email }}</span>
               </div>
             </div>
           </DropdownMenuLabel>
@@ -65,7 +62,7 @@ const showModalTheme = ref(false)
             Theme
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem @click="handleLogout">
+          <DropdownMenuItem @click="emit('logout')">
             <Icon name="i-lucide-log-out" />
             Log out
           </DropdownMenuItem>

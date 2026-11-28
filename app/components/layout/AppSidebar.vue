@@ -9,12 +9,13 @@ function resolveNavItemComponent(item: NavLink | NavGroup | NavSectionTitle): an
   return resolveComponent('LayoutSidebarNavLink')
 }
 
-// Placeholder teacher profile until Telegram auth is wired in Phase 3
-const user = {
-  name: 'Teacher',
-  email: '@teacher',
-  avatar: '',
-}
+// Real user from session via useAuth()
+const { user, logout } = useAuth()
+const displayUser = computed(() => ({
+  name: user.value?.name || 'Teacher',
+  email: user.value?.username ? `@${user.value.username}` : '',
+  avatar: user.value?.photoUrl || '',
+}))
 
 const { sidebar } = useAppSettings()
 </script>
@@ -34,7 +35,7 @@ const { sidebar } = useAppSettings()
       </SidebarGroup>
     </SidebarContent>
     <SidebarFooter>
-      <LayoutSidebarNavFooter :user="user" />
+      <LayoutSidebarNavFooter :user="displayUser" @logout="logout" />
     </SidebarFooter>
     <SidebarRail />
   </Sidebar>

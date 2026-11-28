@@ -1,11 +1,16 @@
 <script setup lang="ts">
+/**
+ * /pending
+ *
+ * Shown when the user has authenticated with Telegram but their account
+ * is still awaiting approval from the teacher.
+ */
 definePageMeta({
   layout: 'blank',
+  middleware: 'auth',
 })
 
-function handleLogout() {
-  navigateTo('/login')
-}
+const { logout } = useAuth()
 </script>
 
 <template>
@@ -19,11 +24,11 @@ function handleLogout() {
           Waiting for approval
         </CardTitle>
         <CardDescription>
-          Your Telegram account has been registered and is waiting for your teacher to approve access. Please check back later.
+          Your Telegram account has been registered and is waiting for your teacher to approve access. You'll be able to log in once it's approved.
         </CardDescription>
       </CardHeader>
       <CardFooter class="flex justify-center">
-        <Button variant="outline" class="h-11 px-6" @click="handleLogout">
+        <Button variant="outline" class="h-11 px-6" @click="logout">
           <Icon name="i-lucide-log-out" class="mr-2 size-4" />
           Log out
         </Button>

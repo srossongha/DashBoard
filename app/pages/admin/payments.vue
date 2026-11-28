@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
 const selectedMonth = ref(new Date().toISOString().slice(0, 7))
 
 const payments = ref([

@@ -1,12 +1,22 @@
 <script setup lang="ts">
+/**
+ * /login
+ *
+ * Shows a single "Log in with Telegram" button.
+ * Clicking it navigates to /api/auth/telegram/start which begins the OIDC flow.
+ * The auth middleware redirects already-logged-in users away.
+ */
 definePageMeta({
   layout: 'blank',
+  middleware: 'auth',
 })
 
-function handleTelegramLogin() {
-  // Phase 3 will navigate to /api/auth/telegram/start
-  navigateTo('/admin')
-}
+const route = useRoute()
+const errorMsg = computed(() => {
+  if (route.query.error === 'cancelled')
+    return 'Login was cancelled. Please try again.'
+  return null
+})
 </script>
 
 <template>
@@ -23,11 +33,23 @@ function handleTelegramLogin() {
           Sign in with your Telegram account to access your class.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <Button class="h-11 w-full gap-2 text-base" @click="handleTelegramLogin">
-          <Icon name="i-lucide-send" class="size-4" />
-          Log in with Telegram
-        </Button>
+      <CardContent class="space-y-3">
+        <Alert v-if="errorMsg" variant="destructive" class="text-sm">
+          <AlertDescription>{{ errorMsg }}</AlertDescription>
+        </Alert>
+
+        <!--
+          This is a plain anchor tag pointing to our server-side redirect.
+          We deliberately do NOT use navigateTo() so the full browser navigation
+          happens, which is required for Telegram to redirect back to our
+          callback URL with the authorization code.
+        -->
+        <a href="/api/auth/telegram/start" class="block">
+          <Button class="h-11 w-full gap-2 text-base">
+            <Icon name="i-lucide-send" class="size-4" />
+            Log in with Telegram
+          </Button>
+        </a>
       </CardContent>
       <CardFooter class="justify-center">
         <p class="text-center text-xs text-muted-foreground">

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
 const todaySummary = {
   date: 'Today',
   presentCount: 14,

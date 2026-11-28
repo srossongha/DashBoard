@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({ middleware: 'auth' })
 const route = useRoute()
 const studentId = computed(() => String(route.params.id))
 
