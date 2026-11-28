@@ -21,7 +21,8 @@ import type { JWTPayload } from 'jose'
 
 /** Claims we expect from Telegram's id_token */
 interface TelegramClaims extends JWTPayload {
-  id: number                      // Telegram numeric user id (THE identity source)
+  id?: number                     // Present when the profile scope is granted
+  sub?: string                    // OIDC subject, present with the openid scope
   name?: string                   // display name
   preferred_username?: string     // @username (may be absent)
   picture?: string                // profile photo URL
@@ -90,7 +91,8 @@ export default defineEventHandler(async (event) => {
   }
 
   // ── 3. Validate the id_token ──────────────────────────────────────────────
-  // jose verifies: signature (RS256), exp, iss, aud
+  // jose verifies signature, exp, iss, aud. Its key-aware defaults accept only
+  // algorithms supported by the fetched Telegram key and the deployed runtime.
   let claims: TelegramClaims
   try {
     const { payload } = await jwtVerify<TelegramClaims>(idToken, TELEGRAM_JWKS, {
@@ -100,7 +102,29 @@ export default defineEventHandler(async (event) => {
     claims = payload
   }
   catch (err: unknown) {
-    console.error('[telegram/callback] id_token validation failed:', (err as Error).message)
+    // jose errors include a stable code (for example ERR_JWT_CLAIM_VALIDATION_FAILED)
+    // and a useful message. Log only that diagnostic; never log the token or claims.
+    const error = err instanceof Error ? err as Error & { code?: string } : undefined
+    let tokenHeader: { alg?: string, kid?: string, typ?: string } = {}
+    try {
+      // Decode only the untrusted header for diagnostics; verification above is
+      // still required before any token claims are used.
+      const header = JSON.parse(atob(idToken.split('.')[0].replace(/-/g, '+').replace(/_/g, '/'))) as Record<string, unknown>
+      tokenHeader = {
+        alg: typeof header.alg === 'string' ? header.alg : undefined,
+        kid: typeof header.kid === 'string' ? header.kid : undefined,
+        typ: typeof header.typ === 'string' ? header.typ : undefined,
+      }
+    }
+    catch {
+      // Malformed headers are already reported by jose; don't include raw data.
+    }
+    console.error('[telegram/callback] id_token validation failed', {
+      name: error?.name ?? 'UnknownError',
+      code: error?.code ?? 'UNKNOWN',
+      reason: error?.message ?? String(err),
+      tokenHeader,
+    })
     throw createError({ statusCode: 401, message: 'ID token validation failed' })
   }
 
